@@ -2,7 +2,6 @@ const express = require('express');
 const routes = require('./routes/routes');
 const pug = require('pug');
 const bodyParser = require('body-parser');
-const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
 const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -14,14 +13,30 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname + '/public')));
 
-let urlencodedParser = bodyParser.urlencoded({
+const urlencodedParser = bodyParser.urlencoded({
     extended: true
 });
 
+const checkAuth = (req, res, next) => {
+    if (req.session.user && req.session.user.isAuthenticated) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+};
+
+app.use(expressSession({
+    secret: 'Istilldontknowwhatthisdoes',
+    saveUninitialized: true,
+    resave: true
+}));
+
 app.get('/', routes.index);
 app.get('/create', routes.create);
-app.post('/create', urlencodedParser, routes.createPerson);
-app.get('/account/:id', routes.account);
-app.post('/account/:id', urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
+app.post('/create', urlencodedParser, routes.createUser);
+app.post('/login', urlencodedParser, routes.login);
+app.get('/account', checkAuth, routes.account);
+app.post('/account', checkAuth, urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
+app.get('/logout', routes.logout);
 
 app.listen(3000);
