@@ -1,10 +1,11 @@
 extends layout
 
 block content
-    form(id='form', method='post')
+    h1=date
+    form(id='form', method='post', action='/edit/' + user.username)
         p Current Username: #{user.username}
-        p New Username:   
-            input(type='text', name='username')
+        p New Username:
+            input(type='text', name='username' value=user.username)
         p New Password:
             input(type='password', name='password')
         p Current Email: #{user.email}
@@ -42,5 +43,5 @@ block content
             label(for='answer3question3') This One
             input(type='radio', name='answer3' value=13 id='answer4question3' checked=(user.answer3==13)) 
             label(for='answer3question3') Other
-        p
-            input(type='submit', value='Update Account')
+        
+        input(type='submit', value='Update Account')

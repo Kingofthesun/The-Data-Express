@@ -21,7 +21,7 @@ let urlencodedParser = bodyParser.urlencoded({
 app.get('/', routes.index);
 app.get('/create', routes.create);
 app.post('/create', urlencodedParser, routes.createPerson);
-app.get('/account', routes.account);
-app.post('/account', urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
+app.get('/account/:id', routes.account);
+app.post('/account/:id', urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
 
 app.listen(3000);

@@ -1,5 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+
+
 input.radio{
     float: left;
     clear: none;
     margin: 2px;
+}
+
+form{
+    background-color: #bbe3e0;
+	width: 800px;
+	padding: 5px;
+	border: 3px solid #2ec4b6;
+    border-radius: 10px;
+	font-family: 'Noto Sans', sans-serif;
+}
+
+html{
+    background-color: #ffcf8e;
+}
+
+input[type=submit] {
+    background: #ff9f1c;
+    border:2px solid #cf6f0c;
+    border-radius: 5px;
+    cursor: pointer;
 }

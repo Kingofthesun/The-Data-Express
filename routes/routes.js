@@ -55,19 +55,19 @@ exports.createPerson = (req, res) => {
 };
 
 exports.account = (req, res) => { //When working on the front end, I had to disable most of this method, so things might not work perfectly -Matthew
-    Users.find({username:req.params.username}, (err, user) => {
+    Users.findById(req.params.id, (err, user) => {//changed from Users.find(), wasn't working properly
         if (err) return console.error(err);
         res.cookie('date', Date.now(), {maxAge: 86400000});
         res.render('account', {
             title: 'My Account',
-            user,
-            date: req.cookies.date
+            user
+            // date: req.cookies.date // this code always crashes the page
         });
     });
 }
 
 exports.editAccount = (req, res) => {
-    Users.find({username:req.body.username}, (err, user) => {
+    Users.findById(req.body.id, (err, user) => {//changed from Users.find(), wasn't working properly
         if (err) return console.error(err);
         user.username = req.body.username;
         user.password = req.body.password;
@@ -81,5 +81,5 @@ exports.editAccount = (req, res) => {
             console.log(req.body.username + ' account info updated');
         });
     });
-    res.redirect('/account');
+    res.redirect('/');
 };
