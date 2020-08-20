@@ -22,6 +22,6 @@ app.get('/', routes.index);
 app.get('/create', routes.create);
 app.post('/create', urlencodedParser, routes.createPerson);
 app.get('/account', routes.account);
-app.post('/account', urlencodedParser, routes.editAccount);
+app.post('/account', urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
 
-app.listen(3000); //I feel like this should be changed, but I don't know to what
+app.listen(3000);

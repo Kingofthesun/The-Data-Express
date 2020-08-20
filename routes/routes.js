@@ -54,7 +54,7 @@ exports.createPerson = (req, res) => {
     res.redirect('/');
 };
 
-exports.account = (req, res) => {
+exports.account = (req, res) => { //When working on the front end, I had to disable most of this method, so things might not work perfectly -Matthew
     Users.find({username:req.params.username}, (err, user) => {
         if (err) return console.error(err);
         res.cookie('date', Date.now(), {maxAge: 86400000});

@@ -1,3 +1,46 @@
 extends layout
 
 block content
+    form(id='form', method='post')
+        p Current Username: #{user.username}
+        p New Username:   
+            input(type='text', name='username')
+        p New Password:
+            input(type='password', name='password')
+        p Current Email: #{user.email}
+        p New Email:
+            input(type='text', name='email')
+        p Current Age: #{user.age}
+        p New Age:
+            input(type='number', name='age', min=0)
+        p Question 1: Favorite Kind of Pet?
+            input(type='radio', name='answer1' value=1 id='answer1question1' checked=(user.answer1==1)) 
+            label(for='answer1question1') Dog
+            input(type='radio', name='answer1' value=2 id='answer2question1' checked=(user.answer1==2)) 
+            label(for='answer2question1') Cat
+            input(type='radio', name='answer1' value=3 id='answer3question1' checked=(user.answer1==3)) 
+            label(for='answer3question1') Both
+            input(type='radio', name='answer1' value=4 id='answer4question1' checked=(user.answer1==4)) 
+            label(for='answer4question1') Neither
+        p Question 2: Favorite Activity?
+            input(type='radio', name='answer2' value=5 id='answer1question2' checked=(user.answer2==5)) 
+            label(for='answer1question2') Watching Movies
+            input(type='radio', name='answer2' value=6 id='answer2question2' checked=(user.answer2==6)) 
+            label(for='answer2question2') Gaming
+            input(type='radio', name='answer2' value=7 id='answer3question2' checked=(user.answer2==7)) 
+            label(for='answer3question2') Reading
+            input(type='radio', name='answer2' value=8 id='answer4question2' checked=(user.answer2==8)) 
+            label(for='answer3question2') Sports/Exercising
+            input(type='radio', name='answer2' value=9 id='answer5question2' checked=(user.answer2==9)) 
+            label(for='answer3question2') Other
+        p Question 3: Hardest Assignment?
+            input(type='radio', name='answer3' value=10 id='answer1question3' checked=(user.answer3==10)) 
+            label(for='answer1question3') Fraculator
+            input(type='radio', name='answer3' value=11 id='answer2question3' checked=(user.answer3==11)) 
+            label(for='answer2question3') Weather API
+            input(type='radio', name='answer3' value=12 id='answer3question3' checked=(user.answer3==12)) 
+            label(for='answer3question3') This One
+            input(type='radio', name='answer3' value=13 id='answer4question3' checked=(user.answer3==13)) 
+            label(for='answer3question3') Other
+        p
+            input(type='submit', value='Update Account')
