@@ -6,6 +6,7 @@ const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
 const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 const app = express();
 
@@ -18,5 +19,9 @@ let urlencodedParser = bodyParser.urlencoded({
 });
 
 app.get('/', routes.index);
+app.get('/create', routes.create);
+app.post('/create', urlencodedParser, routes.createPerson);
+app.get('/account', routes.account);
+app.post('/account', urlencodedParser, routes.editAccount);
 
 app.listen(3000); //I feel like this should be changed, but I don't know to what
