@@ -34,7 +34,7 @@ app.use(expressSession({
 app.get('/', routes.index);
 app.get('/create', routes.create);
 app.post('/create', urlencodedParser, routes.createUser);
-app.post('/login', urlencodedParser, routes.login);
+app.post('/', urlencodedParser, routes.login);
 app.get('/account', checkAuth, routes.account);
 app.post('/account', checkAuth, urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
 app.get('/logout', routes.logout);

@@ -71,6 +71,7 @@ exports.createUser = (req, res) => {
 };
 
 exports.login = (req, res) => {
+    console.log(`Trying to log in as ${req.body.username}.`);
     let query = { username: req.body.username };
     Users.findOne(query, (err, founduser) => {
         if (err) return console.error(err);
@@ -84,9 +85,11 @@ exports.login = (req, res) => {
                 }
                 res.redirect('/account');
             } else {
+                console.log(`Found username, but the password ${hash} didn't match.`);
                 res.redirect('/');
             }
         } else {
+            console.log(`Couldn't find a user with username ${req.body.username}.`);
             res.redirect('/');
         }
     });

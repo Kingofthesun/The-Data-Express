@@ -2,4 +2,11 @@ extends layout
 
 block content
     h1 Welcome, to the Data Express
+    form(id='form', method='post')
+        p Username:   
+            input(type='text', name='username')
+        p Password:
+            input(type='password', name='password')
+        p
+            input(type='submit', value='Log In' id='submittionButton')
     a(href='/create') Create Account
