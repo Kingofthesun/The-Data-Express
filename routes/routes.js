@@ -26,7 +26,7 @@ let userSchema = mongoose.Schema({
 let Users = mongoose.model('User_Collection', userSchema);
 
 exports.index = (req, res) => {
-    if (req.session.user.isAuthenticated){
+    if (req.session.user && req.session.user.isAuthenticated){
         res.render('index', {
             title: "Home",
             name: req.session.user.username
