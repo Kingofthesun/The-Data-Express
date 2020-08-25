@@ -128,7 +128,10 @@ exports.editAccount = (req, res) => {
         answer3: req.body.answer3
     }};
     Users.updateOne(query, update, (err, user) => {
-        if (err) return console.error(err);
+        if (err){
+            res.redirect('/');
+            return console.error(err);
+        }
         req.session.user = {
             isAuthenticated: true,
             username: req.body.username
@@ -136,7 +139,6 @@ exports.editAccount = (req, res) => {
         console.log(req.body.username + ' account info updated');
         res.redirect('/account');
     });
-    res.redirect('/');
 };
 
 exports.logout = (req, res) => {
