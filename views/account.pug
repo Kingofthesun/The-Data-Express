@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1=date
-    form(id='form', method='post', action='/edit/' + user.username)
+    form(id='form', method='post')
         p Current Username: #{user.username}
             input(type='hidden', name='oldusername' value=user.username)
         p New Username:
