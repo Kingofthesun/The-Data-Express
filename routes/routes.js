@@ -76,9 +76,7 @@ exports.login = (req, res) => {
     Users.findOne(query, (err, founduser) => {
         if (err) return console.error(err);
         if (founduser){
-            let salt = bcrypt.genSaltSync(10);
-            let hash = bcrypt.hashSync(req.body.password, salt);
-            if(bcrypt.compareSync(hash, founduser.password)){
+            if(bcrypt.compareSync(req.body.password, founduser.password)){
                 req.session.user = {
                     isAuthenticated: true,
                     username: req.body.username
@@ -109,19 +107,26 @@ exports.account = (req, res) => {
 }
 
 exports.editAccount = (req, res) => {
-    Users.findById(req.body.id, (err, user) => {//changed from Users.find(), wasn't working properly
+    let query = { username: req.body.oldusername };
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(req.body.password, salt);
+    let update = { $set: {
+        username: req.body.username,
+        password: hash,
+        email: req.body.email,
+        age: req.body.age,
+        answer1: req.body.answer1,
+        answer2: req.body.answer2,
+        answer3: req.body.answer3
+    }};
+    Users.updateOne(query, update, (err, user) => {
         if (err) return console.error(err);
-        user.username = req.body.username;
-        user.password = req.body.password;
-        user.email = req.body.email;
-        user.age = req.body.age;
-        user.answer1 = req.body.answer1;
-        user.answer2 = req.body.answer2;
-        user.answer3 = req.body.answer3;
-        user.save((err, user) => {
-            if (err) return console.error(err);
-            console.log(req.body.username + ' account info updated');
-        });
+        req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username
+        }
+        console.log(req.body.username + ' account info updated');
+        res.redirect('/account');
     });
     res.redirect('/');
 };

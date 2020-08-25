@@ -4,6 +4,7 @@ block content
     h1=date
     form(id='form', method='post', action='/edit/' + user.username)
         p Current Username: #{user.username}
+            input(type='hidden', name='oldusername' value=user.username)
         p New Username:
             input(type='text', name='username' value=user.username)
         p New Password:
