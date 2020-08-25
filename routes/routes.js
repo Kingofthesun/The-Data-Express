@@ -56,6 +56,7 @@ exports.createUser = (req, res) => {
         if (err) return console.error(err);
         if(founduser){
             res.redirect('/');
+            return console.log(`${req.body.username} already exists.`);
         } else {
             let salt = bcrypt.genSaltSync(10);
             let hash = bcrypt.hashSync(req.body.password, salt);
@@ -115,6 +116,13 @@ exports.account = (req, res) => {
 }
 
 exports.editAccount = (req, res) => {
+    Users.findOne({ username: req.body.username }, (err, founduser) => {
+        if (err) return console.error(err);
+        if(founduser){
+            res.redirect('/');
+            return console.log(`${req.body.username} already exists.`);
+        }
+    });
     let query = { username: req.body.oldusername };
     let salt = bcrypt.genSaltSync(10);
     let hash = bcrypt.hashSync(req.body.password, salt);
