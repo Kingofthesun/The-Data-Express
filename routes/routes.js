@@ -158,3 +158,18 @@ exports.logout = (req, res) => {
         }
     });
 };
+
+exports.api = (req, res) => {
+    Users.find((err, foundusers) => {
+        if (err){
+            return console.error(err);
+        }
+        let result = [ [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0] ];
+        foundusers.forEach(founduser => {
+            result[0][founduser.answer1 - 1]++;
+            result[1][founduser.answer1 - 5]++;
+            result[0][founduser.answer1 - 9]++;
+        });
+        res.json(result);
+    });
+};

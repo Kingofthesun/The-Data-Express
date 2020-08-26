@@ -9,6 +9,12 @@ const path = require('path');
 
 const app = express();
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname + '/public')));
@@ -38,5 +44,6 @@ app.post('/', urlencodedParser, routes.login);
 app.get('/account', checkAuth, routes.account);
 app.post('/account', checkAuth, urlencodedParser, routes.editAccount);//This method was disabled while working on the account.pug -Matthew
 app.get('/logout', routes.logout);
+app.get('/api', routes.api);
 
 app.listen(3000);
