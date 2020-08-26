@@ -57,6 +57,9 @@ exports.createUser = (req, res) => {
         if(founduser){
             res.redirect('/');
             return console.log(`${req.body.username} already exists.`);
+        } else if (!req.body.password){
+            res.redirect('/');
+            return console.log(`No blank passwords allowed.`);
         } else {
             let salt = bcrypt.genSaltSync(10);
             let hash = bcrypt.hashSync(req.body.password, salt);
@@ -92,7 +95,7 @@ exports.login = (req, res) => {
                 }
                 res.redirect('/account');
             } else {
-                console.log(`Found username, but the password ${hash} didn't match.`);
+                console.log(`Found username, but the password didn't match.`);
                 res.redirect('/');
             }
         } else {
@@ -116,37 +119,61 @@ exports.account = (req, res) => {
 }
 
 exports.editAccount = (req, res) => {
-    Users.findOne({ username: req.body.username }, (err, founduser) => {
-        if (err) return console.error(err);
-        if(founduser){
-            res.redirect('/');
-            return console.log(`${req.body.username} already exists.`);
-        }
-    });
-    let query = { username: req.body.oldusername };
-    let salt = bcrypt.genSaltSync(10);
-    let hash = bcrypt.hashSync(req.body.password, salt);
-    let update = { $set: {
-        username: req.body.username,
-        password: hash,
-        email: req.body.email,
-        age: req.body.age,
-        answer1: req.body.answer1,
-        answer2: req.body.answer2,
-        answer3: req.body.answer3
-    }};
-    Users.updateOne(query, update, (err, user) => {
-        if (err){
-            res.redirect('/');
-            return console.error(err);
-        }
-        req.session.user = {
-            isAuthenticated: true,
-            username: req.body.username
-        }
-        console.log(req.body.username + ' account info updated');
-        res.redirect('/account');
-    });
+    let safeToEdit = true;
+    if (req.body.username != req.body.oldusername){
+        Users.findOne({ username: req.body.username }, (err, founduser) => {
+            if (err){ 
+                safeToEdit = false;
+                return console.error(err);
+            }
+            if(founduser){
+                safeToEdit = false;
+                return console.log(`${req.body.username} already exists.`);
+            }
+        });
+    }
+    if (!req.body.password){
+        safeToEdit = false;
+        return console.log(`No blank passwords allowed.`);
+    }
+    if (safeToEdit){
+        let query = { username: req.body.oldusername };
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(req.body.password, salt);
+        let update = { $set: {
+            username: req.body.username,
+            password: hash,
+            email: req.body.email,
+            age: req.body.age,
+            answer1: req.body.answer1,
+            answer2: req.body.answer2,
+            answer3: req.body.answer3
+        }};
+        Users.updateOne(query, update, (err, user) => {
+            if (err){
+                res.redirect('/account');
+                return console.error(err);
+            }
+            console.log(req.body.username + ' account info updated');
+            if (req.body.oldusername != req.body.username){
+                req.session.destroy(err => {
+                    if (err) {
+                        console.log(err);
+                        res.redirect('/account');
+                        return console.error(err);
+                    } else {
+                        res.redirect('/');
+                        return console.log(`Username changed. Session had to be destroyed.`);
+                    }
+                });
+            } else {
+                res.redirect('/account');
+                return console.log(`Username not changed. Refreshing the page.`);
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
 };
 
 exports.logout = (req, res) => {
