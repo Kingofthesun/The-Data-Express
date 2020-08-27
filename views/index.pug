@@ -3,6 +3,10 @@ extends layout
 block content
     if name == ""
         h1 Welcome to the Data Express
+        if (visited)
+            h3 Last visited #{month}/#{day}/#{year}.
+        else
+            h3 This site uses cookies to track when you last visited.
         form(id='form', method='post')
             p Username:   
                 input(type='text', name='username')

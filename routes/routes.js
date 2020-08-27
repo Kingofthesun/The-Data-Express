@@ -26,15 +26,35 @@ let userSchema = mongoose.Schema({
 let Users = mongoose.model('User_Collection', userSchema);
 
 exports.index = (req, res) => {
+    let day = 0, month = 0, year = 0, visited = false;
+    if (req.cookies.day && req.cookies.month && req.cookies.year){
+        visited = true;
+        day = req.cookies.day;
+        month = req.cookies.month;
+        year = req.cookies.year;
+    }
+    date = new Date();
+    res.cookie('day', date.getDate(), {maxAge: 86400000});
+    res.cookie('month', date.getMonth(), {maxAge: 86400000});
+    res.cookie('year', date.getFullYear(), {maxAge: 86400000});
+    month++;
     if (req.session.user && req.session.user.isAuthenticated){
         res.render('index', {
             title: "Home",
-            name: req.session.user.username
+            name: req.session.user.username,
+            visited: visited,
+            day: day,
+            month: month,
+            year: year
         });
     } else {
         res.render('index', {
             title: "Home",
-            name: ""
+            name: "",
+            visited: visited,
+            day: day,
+            month: month,
+            year: year
         });
     }
 };
@@ -109,11 +129,9 @@ exports.account = (req, res) => {
     let query = { username: req.session.user.username };
     Users.findOne(query, (err, founduser) => {
         if (err) return console.error(err);
-        //res.cookie('date', Date.now(), {maxAge: 86400000});
         res.render('account', {
             title: 'My Account',
             user: founduser
-            // date: req.cookies.date // this code always crashes the page
         });
     });
 }
