@@ -212,8 +212,8 @@ exports.api = (req, res) => {
         let result = [ [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0] ];
         foundusers.forEach(founduser => {
             result[0][founduser.answer1 - 1]++;
-            result[1][founduser.answer1 - 5]++;
-            result[0][founduser.answer1 - 9]++;
+            result[1][founduser.answer2 - 5]++;
+            result[2][founduser.answer3 - 9]++;
         });
         res.json(result);
     });
