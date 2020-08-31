@@ -209,11 +209,11 @@ exports.api = (req, res) => {
         if (err){
             return console.error(err);
         }
-        let result = [ [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0] ];
+        let result = [ [0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0] ];
         foundusers.forEach(founduser => {
             result[0][founduser.answer1 - 1]++;
             result[1][founduser.answer2 - 5]++;
-            result[2][founduser.answer3 - 9]++;
+            result[2][founduser.answer3 - 10]++;
         });
         res.json(result);
     });

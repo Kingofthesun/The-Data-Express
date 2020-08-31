@@ -9,21 +9,33 @@ const graph = canvas.getContext('2d');
 canvas.width=600;
 canvas.height=400;
 
-const dogNum = 292
-const catNum = 143
-const dogCatNum = 94
-const neitherDogCatNum = 56
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // The "data" variable has the data from the API. I've filled
+        // in your variables with it here:
+        const dogNum = data[0][0];
+        const catNum = data[0][1];
+        const dogCatNum = data[0][2];
+        const neitherDogCatNum = data[0][3];
+        
+        const moviesNum = data[1][0];
+        const gamingNum = data[1][1];
+        const readingNum = data[1][2];
+        const sportsNum = data[1][3];
+        const otherNum = data[1][4];
+        
+        const fraculatorNum = data[2][0];
+        const weatherNum = data[2][1];
+        const thisAssignmentNum = data[2][2];
+        const otherAssignmentNum = data[2][3];
 
-const moviesNum = 182
-const gamingNum = 332
-const readingNum = 16
-const sportsNum = 33
-const otherNum = 22
+        // All the code for making the graph needs to go in here.
+        
+    });
 
-const fraculatorNum = 406
-const weatherNum = 23
-const thisAssignmentNum = 56
-const otherAssignmentNum = 100
+
 //these are currently fake numbers for testing purposes based on a total of 585 users
 
 const dogGraph = (dogNum*100)/(dogNum+catNum+dogCatNum+neitherDogCatNum)
