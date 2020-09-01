@@ -185,7 +185,7 @@ exports.editAccount = (req, res) => {
                     }
                 });
             } else {
-                res.redirect('/account');
+                res.redirect('/');
                 return console.log(`Username not changed. Refreshing the page.`);
             }
         });
